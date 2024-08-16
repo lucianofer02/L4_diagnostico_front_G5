@@ -1,8 +1,17 @@
 
 import PropTypes from 'prop-types'
 import { Card,Row,Col, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
-const MoviesList = ({ title, director, year, genre, duration, showtimes, imageUrl }) => {
+const MoviesList = ({ title,showtimesDay, imageUrl,showtimes,director }) => {
+    const navigate = useNavigate();
+
+    const handleCardNavigation = () =>{
+        navigate("moviesCard",{
+          state:{  title,showtimesDay,  imageUrl,showtimes,director}
+        })
+    }
+
     return (
         <div>
             <Card className='card_group'>
@@ -13,10 +22,8 @@ const MoviesList = ({ title, director, year, genre, duration, showtimes, imageUr
                         </Col>
                         <Col md={6}>
                             <Card.Title>{title}</Card.Title>
-                            <Card.Text>{duration}</Card.Text>
-                            <Card.Text>{genre}</Card.Text>
                             <Card.Footer>
-                                <Button variant='outline-dark' >Selccionar funcion</Button>
+                                <Button variant='outline-dark' onClick={handleCardNavigation} >Selccionar funcion</Button>
                             </Card.Footer>
 
                         </Col>
@@ -30,9 +37,7 @@ const MoviesList = ({ title, director, year, genre, duration, showtimes, imageUr
 MoviesList.propTypes = {
     title: PropTypes.string,
     director: PropTypes.string,
-    year: PropTypes.number,
-    genre: PropTypes.string,
-    duration: PropTypes.string,
+    showtimesDay: PropTypes.array,
     showtimes: PropTypes.array,
     imageUrl: PropTypes.string,
 }
