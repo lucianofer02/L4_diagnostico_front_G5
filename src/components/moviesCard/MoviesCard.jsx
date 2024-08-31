@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
-import { Card, } from 'react-bootstrap';
 
-const MoviesCard = () => {
-  const location = useLocation();
-  const { title,showtimesDay,   imageUrl,showtimes,director} = location.state
+
+
+const MoviesCard = ({movie}) => {
+  
 
   return (
     <div>
-      
+      <h1>esta peli queres ver MAMI??</h1>
 
 
     </div>
@@ -16,7 +15,7 @@ const MoviesCard = () => {
 }
 
 MoviesCard.propTypes = {
-  movies: PropTypes.array
+  movie: PropTypes.array
 }
 
 export default MoviesCard

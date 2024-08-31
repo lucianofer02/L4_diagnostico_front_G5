@@ -1,10 +1,11 @@
 
 
 import PropTypes from 'prop-types'
-import MoviesList from '../moviesList/MoviesList'
+import MovieItem from '../movieItem/MovieItem'
+
 
 const Home = ({movies}) => {
-
+    
     
 
 
@@ -13,15 +14,12 @@ const Home = ({movies}) => {
             <h1>Seleccione la pelicula</h1>
             <ul>
                 {movies.map((m)=>
-                        <MoviesList
+                        <MovieItem
                             key={m.id}
-                           title={m.title}
-                           director={m.director}
-                           showtimesDay={m.showtimesDay}                       
-                           showtimes={m.showtimes} 
-                           imageUrl={m.imageUrl}
+                           movie={m}
                         />
                 )}
+              <h3></h3>
             </ul>
         </div>
     )
