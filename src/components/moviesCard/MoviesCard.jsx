@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const MoviesCard = ({ movie }) => {
   return (
     <div>
-      <h1>esta peli queres ver MAMI??</h1>
+      <h1>Película:</h1>
     </div>
   );
 };
