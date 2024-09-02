@@ -1,7 +1,7 @@
-import { useReducer, useState } from 'react'
+import { useReducer, useState, useSyncExternalStore } from 'react'
 import PropTypes from 'prop-types'
 import Table from 'react-bootstrap/Table';
-import { Button, Col, Form, Row, } from 'react-bootstrap';
+import { Button, Col, Form, FormControl, Row, } from 'react-bootstrap';
 
 const initialFunction = {
   id: 0,
@@ -37,12 +37,41 @@ const functioFormReducer = (state, action) => {
   }
 }
 
-const EditFunction = ({ movies, onFunctionDataSaved}) => {
+const EditFunction = ({ movies, onFunctionDataSaved, onUpdateData}) => {
 
   const [movieSelected, setMovieSelected] = useState(null)
+  const [functionSelected, setFunctionSelected] = useState(null)
   const [showFormAdd, setShowFormAdd] = useState(false)
   const [showFormUpdate, setShowFormUpdate] = useState(false)
+  const [newDate, setNewDate] = useState("")
+  const [newPrice, setNewPrice] = useState("")
 
+  //-----Update Function----
+  const submitNewData = (e) => {
+    e.preventDefault();
+    onUpdateData(newDate, newPrice, functionSelected, movieSelected)
+    setNewDate("");
+    setNewPrice("");
+    setShowFormUpdate(false);
+  };
+
+  const handleShowFormUpdate = (f) => {
+    setShowFormUpdate(true)
+    setFunctionSelected(f)
+  }
+
+  const handleNewDate = (e) => {
+    setNewDate(e.target.value)
+    console.log("fecha", e.target.value)
+  }
+
+  const handleNewPrice = (e) => {
+    setNewPrice(e.target.value)
+    console.log("precio", e.target.value)
+  }
+  //------------------------
+
+  //------Add Function------
   const [functionForm, dispatch] = useReducer(
     functioFormReducer,
     initialFunction);
@@ -76,12 +105,9 @@ const EditFunction = ({ movies, onFunctionDataSaved}) => {
     setShowFormAdd(false)
   }
 
-
   const handleChangeShowForm = () => {
     setShowFormAdd(!showFormAdd)
-
   }
-
 
   const handleSelectedChange = (e) => {
     const x = e.target.value
@@ -89,8 +115,8 @@ const EditFunction = ({ movies, onFunctionDataSaved}) => {
     const selectedMovie = movies.find((m) => m.id == x);
     setMovieSelected(selectedMovie || null);
     console.log(selectedMovie)
-
   };
+  //----------------------
 
 
   return (
@@ -119,8 +145,24 @@ const EditFunction = ({ movies, onFunctionDataSaved}) => {
               <tr key={f.id}>
                 <td>{f.date}</td>
 
-                <td>
-                  <Button style={{ backgroundColor: 'orange', borderColor: 'orange' }}>Editar</Button>
+                <td>{showFormUpdate ? 
+                  (<Form onSubmit={submitNewData}>
+                    <Form.Label>Nuevo Horario</Form.Label>
+                    <Form.Control
+                    type='datetime-local'
+                    value={newDate}
+                    onChange={handleNewDate}></Form.Control>
+                    <Form.Label>Nuevo Precio</Form.Label>
+                    <Form.Control
+                    type='number'
+                    value={newPrice}
+                    onChange={handleNewPrice}></Form.Control>
+                    <Button type='submit' variant='success'>Aceptar</Button>
+                  </Form>
+                  ) :
+                  (<Button style={{ backgroundColor: 'orange', borderColor: 'orange'}} onClick={() => handleShowFormUpdate(f)}>Editar</Button>)
+                  }
+                  
                 </td>
                 <td>
                   <Button variant='danger'>Eliminar</Button>
@@ -174,7 +216,8 @@ const EditFunction = ({ movies, onFunctionDataSaved}) => {
 
 EditFunction.propTypes = {
   movies: PropTypes.array.isRequired,
-  onFunctionDataSaved: PropTypes.func.isRequired
+  onFunctionDataSaved: PropTypes.func.isRequired,
+  onUpdateData: PropTypes.func.isRequired
 }
 
 export default EditFunction

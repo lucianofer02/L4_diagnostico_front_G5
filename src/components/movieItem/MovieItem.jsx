@@ -8,10 +8,8 @@ import MoviesCard from '../moviesCard/MoviesCard';
 const MovieItem = ({ movie }) => {
     const [showCard, setShowCard] = useState(false);
 
-
     const handleShowCard = () => {
         setShowCard(!showCard)
-
     }
 
     return (
@@ -32,7 +30,7 @@ const MovieItem = ({ movie }) => {
                             <Col md={6}>
                                 <Card.Title>{movie.title}</Card.Title>
                                 <Card.Footer>
-                                    <Button variant='outline-dark' onClick={handleShowCard} >Selccionar funcion</Button>
+                                    <Button variant='outline-dark' onClick={handleShowCard}>Selccionar funcion</Button>
                                 </Card.Footer>
 
                             </Col>

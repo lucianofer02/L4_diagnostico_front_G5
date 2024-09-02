@@ -61,6 +61,41 @@ function App() {
       alert(error);
     }
   };
+
+  const sumbitUpdateData = async (newPrice, newDate, movieSelected, functionSelected) => {
+    console.log("Precio:", newPrice);
+    console.log("Película seleccionada:", movieSelected);
+    console.log("Función seleccionada:", functionSelected);
+    console.log("Fecha:", newDate);
+    const newDataDto = {
+      ...functionSelected,
+      date: newDate,
+      price: newPrice,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:7156/api/function/`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newDataDto),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Error al editar la función");
+      } else {
+        console.log("Función actualizada");
+      }
+      const data = await response.json();
+      onUpdateData(newDataDto);
+      console.log(data);
+    } catch (error) {
+      alert(error);
+    }
+    setReload(!reload);
+  };
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -77,6 +112,7 @@ function App() {
           <EditFunction
             movies={movies}
             onFunctionDataSaved={saveFunctionDataHandler}
+            onUpdateData={sumbitUpdateData}
           />
         </MainLayout>
       ),
